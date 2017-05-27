@@ -14,11 +14,12 @@ object BuildSettings {
     organizationHomepage := Some(new URL("http://socialbird.com")),
     description := "SocialBird Platform",
     startYear := Some(2017),
-    scalaVersion := "2.11.11",
+    scalaVersion := Dependencies.V.Scala,
     ivyScala := ivyScala.value.map(_.copy(overrideScalaVersion = true)),
     resolvers ++= Dependencies.resolutionRepos,
+    parallelExecution in Test := false,
     scalacOptions := Seq("-target:jvm-1.8", "-encoding", "UTF-8", "-deprecation", "-unchecked"),
-    parallelExecution in Test := false
+    shellPrompt := { s => s"[SB PROJECT] ${Project.extract(s).currentProject.id} > " }
   )
 
   lazy val playScalaSettings = Seq(
@@ -27,8 +28,8 @@ object BuildSettings {
   )
 
   lazy val noPublishing = Seq(
-    publish :=(),
-    publishLocal :=()
+    publish := (),
+    publishLocal := ()
   )
 
 }

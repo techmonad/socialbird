@@ -19,26 +19,28 @@ object Dependencies {
 
   // Versions
   object V {
+    val Scala = "2.11.11"
     val Play = "2.5.15"
     val Spark = "2.1.1"
   }
 
   object PlayLib {
-    val jdbc = "com.typesafe.play" %% "play-jdbc" % V.Play
-    val cache = "com.typesafe.play" %% "play-cache" % V.Play
-    val ws = "com.typesafe.play" %% "play-ws" % V.Play
-    val json = "com.typesafe.play" %% "play-json" % V.Play
-    val filter = "com.typesafe.play" %% "filters-helpers" % V.Play
-    val scalatestplus = "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0"
+    val typesafe = "com.typesafe.play"
+    lazy val jdbc: ModuleID = typesafe %% "play-jdbc" % V.Play
+    lazy val cache: ModuleID = typesafe %% "play-cache" % V.Play
+    lazy val ws: ModuleID = typesafe %% "play-ws" % V.Play
+    lazy val json: ModuleID = typesafe %% "play-json" % V.Play
+    lazy val filter: ModuleID = typesafe %% "filters-helpers" % V.Play
+    lazy val scalatestplus: ModuleID = "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0"
   }
 
   object SparkLib {
     val spark = "org.apache.spark"
-    lazy val sparkCore = spark %% "spark-core" % V.Spark
-    lazy val sparkSQL = spark %% "spark-sql" % V.Spark
-    lazy val sparkStreaming = spark %% "spark-streaming" % V.Spark
-    lazy val sparkKafka = spark %% "spark-streaming-kafka" % V.Spark
-    lazy val sparkTwitter = spark %% "spark-streaming-twitter" % V.Spark
+    lazy val sparkCore: ModuleID = spark %% "spark-core" % V.Spark
+    lazy val sparkSQL: ModuleID = spark %% "spark-sql" % V.Spark
+    lazy val sparkStreaming: ModuleID = spark %% "spark-streaming" % V.Spark
+    lazy val sparkKafka: ModuleID = spark %% "spark-streaming-kafka" % V.Spark
+    lazy val sparkTwitter: ModuleID = spark %% "spark-streaming-twitter" % V.Spark
   }
 
   val playDependencies: Seq[ModuleID] = {
