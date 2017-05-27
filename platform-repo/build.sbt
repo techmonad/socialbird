@@ -1,17 +1,22 @@
-name := """platform-repo"""
-organization := "com.socialbird"
-
-version := "1.0-SNAPSHOT"
-
-lazy val root = (project in file(".")).enablePlugins(PlayScala)
+import BuildSettings._
+import Dependencies._
 
 scalaVersion := "2.11.11"
 
-libraryDependencies += filters
-libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0" % Test
+// -------------------------------------------------------------------------------------------------------------------
+// Root Project
+// -------------------------------------------------------------------------------------------------------------------
+lazy val root = Project("platform-repo", file("."))
+  .aggregate(api).settings(basicSettings: _*)
 
-// Adds additional packages into Twirl
-//TwirlKeys.templateImports += "com.socialbird.controllers._"
+// -------------------------------------------------------------------------------------------------------------------
+// REST API
+// -------------------------------------------------------------------------------------------------------------------
+lazy val api = Project("api", file("modules/api"))
+  .enablePlugins(PlayScala)
+  .settings(basicSettings: _*)
+  .settings(playScalaSettings: _*)
+  //.dependsOn(common)
+  .settings(libraryDependencies ++= apiDependencies)
 
-// Adds additional packages into conf/routes
-// play.sbt.routes.RoutesKeys.routesImport += "com.socialbird.binders._"
+
