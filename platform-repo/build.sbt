@@ -24,4 +24,13 @@ lazy val api = project.in(file("modules/api"))
   .dependsOn(common)
   .settings(libraryDependencies ++= apiDependencies)
 
+// -------------------------------------------------------------------------------------------------------------------
+// Engine Module
+// -------------------------------------------------------------------------------------------------------------------
+lazy val engine = project.in(file("modules/engine"))
+  .settings(basicSettings: _*)
+  .settings(libraryDependencies ++= engineDependencies)
+  .settings(dependencyOverrides ++= Set(SparkLib.jackson))
+  .dependsOn(common)
+
 

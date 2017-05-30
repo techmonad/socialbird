@@ -21,7 +21,8 @@ object Dependencies {
   object V {
     val Scala = "2.11.11"
     val Play = "2.5.15"
-    val Spark = "2.1.1"
+    val Spark = "2.1.0"
+    val NLP = "3.7.0"
   }
 
   object PlayLib {
@@ -39,8 +40,14 @@ object Dependencies {
     lazy val sparkCore: ModuleID = spark %% "spark-core" % V.Spark
     lazy val sparkSQL: ModuleID = spark %% "spark-sql" % V.Spark
     lazy val sparkStreaming: ModuleID = spark %% "spark-streaming" % V.Spark
-    lazy val sparkKafka: ModuleID = spark %% "spark-streaming-kafka" % V.Spark
-    lazy val sparkTwitter: ModuleID = spark %% "spark-streaming-twitter" % V.Spark
+    lazy val sparkTwitter: ModuleID = "org.apache.bahir" %% "spark-streaming-twitter" % V.Spark
+    lazy val jackson = "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.7"
+  }
+
+  object NLPLib {
+    val nlp = "edu.stanford.nlp"
+    lazy val corenlp: ModuleID = nlp % "stanford-corenlp" % V.NLP
+    lazy val models: ModuleID = nlp % "stanford-corenlp" % V.NLP classifier "models"
   }
 
   val playDependencies: Seq[ModuleID] = {
@@ -50,6 +57,11 @@ object Dependencies {
 
   val apiDependencies: Seq[ModuleID] = {
     playDependencies
+  }
+
+  val engineDependencies: Seq[ModuleID] = {
+    import SparkLib._
+    compile(sparkCore, sparkSQL, sparkStreaming, sparkTwitter)
   }
 
 }
