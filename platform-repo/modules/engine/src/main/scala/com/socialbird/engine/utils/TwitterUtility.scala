@@ -1,7 +1,10 @@
-package com.socialbird.engine
+package com.socialbird.engine.utils
 
+import java.sql
+import java.sql.Timestamp
 import java.util.Date
 
+import com.socialbird.engine.domains.{Tweet, User}
 import twitter4j.{GeoLocation, Place, Status}
 
 object TwitterUtility {
@@ -19,11 +22,24 @@ object TwitterUtility {
     else Map.empty[String, String]
   }
 
+  implicit def convertJavaDateToSqlDate(date: java.util.Date): sql.Date = new java.sql.Date(date.getTime)
+
+  implicit def dateToTimestamp(date: java.util.Date): Timestamp = new Timestamp(date.getTime)
+
+  implicit def tweetUserToUser(user: twitter4j.User): User = {
+    if (null != user) {
+      import user._
+      User(getId, getName, getScreenName, getLocation, getDescription, getProfileImageURL,
+        getURL, getFollowersCount, getFriendsCount, getFavouritesCount, getLang, getCreatedAt)
+    } else {
+      User()
+    }
+  }
+
   def statusToTweet(status: Status): Tweet = {
     import status._
     Tweet(getId, getText, getCreatedAt, getSource, getLang, getGeoLocation, getPlace,
-      isFavorited, isRetweeted, isRetweet, getFavoriteCount, getRetweetCount)
+      isFavorited, isRetweeted, isRetweet, getFavoriteCount, getRetweetCount, getUser)
   }
-
 
 }

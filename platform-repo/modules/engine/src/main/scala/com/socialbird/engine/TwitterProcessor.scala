@@ -1,8 +1,10 @@
 package com.socialbird.engine
 
+import com.socialbird.engine.utils.{SparkEngine, SparkSessionSingleton}
 import org.apache.spark.streaming.dstream.DStream
 import org.apache.spark.streaming.twitter.TwitterUtils
 import twitter4j.Status
+import org.apache.spark.sql.functions._
 
 /**
   * Created by anand on 4/6/17.
@@ -20,12 +22,13 @@ object TwitterProcessor extends App with SparkEngine {
       // Get the singleton instance of SparkSession
       val sparkSession = SparkSessionSingleton.getInstance(rdd.sparkContext.getConf)
 
-      import TwitterUtility._
+      import com.socialbird.engine.utils.TwitterUtility._
       import sparkSession.implicits._
-      import SentimentAnalysis._
+      import com.socialbird.engine.analysis.SentimentAnalysis._
 
       // Convert RDD[String] to DataFrame
       val dataFrame = rdd.map(statusToTweet).toDF().withColumn("sentiment", sentiment('text))
+        .withColumn("publish_timestamp", current_timestamp())
       dataFrame.show()
 
       import org.elasticsearch.spark.sql._

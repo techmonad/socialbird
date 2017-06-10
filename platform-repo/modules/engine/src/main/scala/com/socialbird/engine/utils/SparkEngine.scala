@@ -1,8 +1,7 @@
-package com.socialbird.engine
+package com.socialbird.engine.utils
 
-import org.apache.spark.sql.{SQLContext, SparkSession}
 import org.apache.spark.streaming.{Seconds, StreamingContext}
-import org.apache.spark.{SparkConf, SparkContext, sql}
+import org.apache.spark.{SparkConf, SparkContext}
 
 /**
   * Created by anand on 4/6/17.

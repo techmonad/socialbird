@@ -1,4 +1,4 @@
-package com.socialbird.engine
+package com.socialbird.engine.utils
 
 import org.apache.spark.SparkConf
 import org.apache.spark.sql.SparkSession

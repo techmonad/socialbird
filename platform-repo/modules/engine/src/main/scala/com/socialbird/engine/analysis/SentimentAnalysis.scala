@@ -1,4 +1,4 @@
-package com.socialbird.engine
+package com.socialbird.engine.analysis
 
 import java.util.Properties
 
@@ -7,9 +7,9 @@ import edu.stanford.nlp.neural.rnn.RNNCoreAnnotations
 import edu.stanford.nlp.pipeline.StanfordCoreNLP
 import edu.stanford.nlp.sentiment.SentimentCoreAnnotations
 import org.apache.spark.sql.expressions.UserDefinedFunction
+import org.apache.spark.sql.functions.udf
 
 import scala.collection.JavaConverters._
-import org.apache.spark.sql.functions.udf
 
 /**
   * Created by anand on 10/6/17.
@@ -39,13 +39,17 @@ object SentimentAnalysis {
   }
 
   def sentiment: UserDefinedFunction = udf { sentence: String =>
-    val pipeline = getOrCreateSentimentPipeline()
-    val annotation = pipeline.process(sentence)
-    val tree = annotation.get(classOf[CoreAnnotations.SentencesAnnotation])
-      .asScala
-      .head
-      .get(classOf[SentimentCoreAnnotations.SentimentAnnotatedTree])
-    intToSentiment(RNNCoreAnnotations.getPredictedClass(tree))
+    try {
+      val pipeline = getOrCreateSentimentPipeline()
+      val annotation = pipeline.process(sentence)
+      val tree = annotation.get(classOf[CoreAnnotations.SentencesAnnotation])
+        .asScala
+        .head
+        .get(classOf[SentimentCoreAnnotations.SentimentAnnotatedTree])
+      intToSentiment(RNNCoreAnnotations.getPredictedClass(tree))
+    } catch {
+      case ex: Exception => intToSentiment(0)
+    }
   }
 
 }
