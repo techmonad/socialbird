@@ -41,7 +41,8 @@ object Dependencies {
     lazy val sparkSQL: ModuleID = spark %% "spark-sql" % V.Spark
     lazy val sparkStreaming: ModuleID = spark %% "spark-streaming" % V.Spark
     lazy val sparkTwitter: ModuleID = "org.apache.bahir" %% "spark-streaming-twitter" % V.Spark
-    lazy val jackson = "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.7"
+    lazy val jackson: ModuleID = "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.7"
+    lazy val elastic: ModuleID = "org.elasticsearch" % "elasticsearch-spark-20_2.11" % "6.0.0-alpha2"
   }
 
   object NLPLib {
@@ -61,7 +62,8 @@ object Dependencies {
 
   val engineDependencies: Seq[ModuleID] = {
     import SparkLib._
-    compile(sparkCore, sparkSQL, sparkStreaming, sparkTwitter)
+    import NLPLib._
+    compile(sparkCore, sparkSQL, sparkStreaming, sparkTwitter, corenlp, models, elastic)
   }
 
 }
