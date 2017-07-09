@@ -57,6 +57,10 @@ object Dependencies {
     lazy val models: ModuleID = nlp % "stanford-corenlp" % V.NLP classifier "models"
   }
 
+  object ElasticLib {
+    lazy val elastic4s = "com.sksamuel.elastic4s" %% "elastic4s-tcp" % "6.0.0-M1"
+  }
+
   val playDependencies: Seq[ModuleID] = {
     import PlayLib._
     compile(guice, jdbc, cache, ws, json, filter) ++ test(scalatestplus)
@@ -68,7 +72,7 @@ object Dependencies {
   }
 
   val apiDependencies: Seq[ModuleID] = {
-    playDependencies
+    playDependencies // ++ compile(ElasticLib.elastic4s)
   }
 
   val engineDependencies: Seq[ModuleID] = {
