@@ -20,19 +20,25 @@ object Dependencies {
   // Versions
   object V {
     val Scala = "2.11.11"
-    val Play = "2.5.15"
+    val Play = "2.6.1"
     val Spark = "2.1.0"
     val NLP = "3.7.0"
   }
 
+  object ScalaLib {
+    lazy val config = "com.typesafe" % "config" % "1.3.1"
+    lazy val logger = "com.typesafe.scala-logging" %% "scala-logging" % "3.7.1"
+  }
+
   object PlayLib {
     val typesafe = "com.typesafe.play"
+    lazy val guice: ModuleID = typesafe %% "play-guice" % V.Play
     lazy val jdbc: ModuleID = typesafe %% "play-jdbc" % V.Play
     lazy val cache: ModuleID = typesafe %% "play-cache" % V.Play
     lazy val ws: ModuleID = typesafe %% "play-ws" % V.Play
     lazy val json: ModuleID = typesafe %% "play-json" % V.Play
     lazy val filter: ModuleID = typesafe %% "filters-helpers" % V.Play
-    lazy val scalatestplus: ModuleID = "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0"
+    lazy val scalatestplus: ModuleID = "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.0"
   }
 
   object SparkLib {
@@ -53,7 +59,12 @@ object Dependencies {
 
   val playDependencies: Seq[ModuleID] = {
     import PlayLib._
-    compile(jdbc, cache, ws, json, filter) ++ test(scalatestplus)
+    compile(guice, jdbc, cache, ws, json, filter) ++ test(scalatestplus)
+  }
+
+  val commonDependencies: Seq[ModuleID] = {
+    import ScalaLib._
+    compile(config, logger)
   }
 
   val apiDependencies: Seq[ModuleID] = {

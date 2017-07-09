@@ -1,0 +1,12 @@
+@(empForm: Form[EmpData])(implicit request: MessagesRequestHeader)
+
+<h1>emp form</h1>
+
+@request.flash.get("success").getOrElse("")
+
+@helper.form(action = routes.EmpController.empPost()) {
+  @helper.CSRF.formField
+  @helper.inputText(empForm("name"))
+  @helper.inputText(empForm("age"))
+  <input type="submit" value="submit"/>
+}

@@ -19,7 +19,8 @@ object BuildSettings {
     resolvers ++= Dependencies.resolutionRepos,
     parallelExecution in Test := false,
     scalacOptions := Seq("-target:jvm-1.8", "-encoding", "UTF-8", "-deprecation", "-unchecked"),
-    shellPrompt := { s => s"[SB PROJECT] ${Project.extract(s).currentProject.id} > " }
+    shellPrompt := { s => s"[SB PROJECT] ${Project.extract(s).currentProject.id} > " },
+    mainClass in (Compile, run) := Some("com.socialbird.engine.TwitterProcessor")
   )
 
   lazy val playScalaSettings = Seq(
