@@ -5,7 +5,7 @@ import Dependencies._
 // Root Project
 // -------------------------------------------------------------------------------------------------------------------
 lazy val root = project.in(file("."))
-  .aggregate(common, api).settings(basicSettings: _*)
+  .aggregate(common, api, engine).settings(basicSettings: _*)
 
 // -------------------------------------------------------------------------------------------------------------------
 // Common Module
