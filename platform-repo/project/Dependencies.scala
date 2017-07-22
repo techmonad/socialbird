@@ -23,6 +23,7 @@ object Dependencies {
     val Play = "2.6.1"
     val Spark = "2.1.0"
     val NLP = "3.7.0"
+    val elastic4s = "5.4.7"
   }
 
   object ScalaLib {
@@ -57,8 +58,17 @@ object Dependencies {
     lazy val models: ModuleID = nlp % "stanford-corenlp" % V.NLP classifier "models"
   }
 
-  object ElasticLib {
-    lazy val elastic4s = "com.sksamuel.elastic4s" %% "elastic4s-tcp" % "6.0.0-M1"
+  object Elastic4sLib {
+    lazy val core = "com.sksamuel.elastic4s" %% "elastic4s-core" % V.elastic4s
+    // for the tcp client
+    lazy val tcp = "com.sksamuel.elastic4s" %% "elastic4s-tcp" % V.elastic4s
+    // for the http client
+    lazy val http = "com.sksamuel.elastic4s" %% "elastic4s-http" % V.elastic4s
+    // if you want to use reactive streams
+    lazy val streams = "com.sksamuel.elastic4s" %% "elastic4s-streams" % V.elastic4s
+    // testing
+    lazy val testkit = "com.sksamuel.elastic4s" %% "elastic4s-testkit" % V.elastic4s
+    lazy val embedded = "com.sksamuel.elastic4s" %% "elastic4s-embedded" % V.elastic4s
   }
 
   val playDependencies: Seq[ModuleID] = {
@@ -72,7 +82,8 @@ object Dependencies {
   }
 
   val apiDependencies: Seq[ModuleID] = {
-    playDependencies // ++ compile(ElasticLib.elastic4s)
+    import Elastic4sLib._
+    playDependencies ++ compile(core, tcp, http, streams) ++ test(testkit, embedded)
   }
 
   val engineDependencies: Seq[ModuleID] = {

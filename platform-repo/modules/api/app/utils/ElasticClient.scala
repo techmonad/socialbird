@@ -1,17 +1,23 @@
 package utils
 
+import com.sksamuel.elastic4s.{ElasticsearchClientUri, TcpClient}
+
 /**
   * Created by anand on 9/7/17.
   */
-class ElasticClient {
+object ElasticClient {
 
-  @transient private var instance: Int = _
+  @transient private var instance: TcpClient = _
 
-  def getInstance(): Unit = {
-    if (instance == 0) {
-      instance = 0
+  def getInstance(): TcpClient = {
+    if (instance == null) {
+      instance = TcpClient.transport(ElasticsearchClientUri("localhost", 9300))
     }
     instance
+  }
+
+  def closeInstance(): Unit = {
+    instance.close()
   }
 
 }
