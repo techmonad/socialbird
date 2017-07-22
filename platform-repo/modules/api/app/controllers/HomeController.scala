@@ -2,7 +2,9 @@ package controllers
 
 import javax.inject._
 
+import models.ApiResponse
 import play.api._
+import play.api.libs.json.Json
 import play.api.mvc._
 import services.ElasticService
 
@@ -24,10 +26,12 @@ class HomeController @Inject()(elasticService: ElasticService)(cc: ControllerCom
     * a path of `/`.
     */
   def index() = Action.async { implicit request: Request[AnyContent] =>
-    for {
+    val result = for {
       _ <- elasticService.createQuery()
       data <- elasticService.executeQuery()
-    } yield Ok(views.html.index(data))
+    } yield ApiResponse(OK, None, Map("total" -> Json.toJson(data.size), "results" -> Json.toJson(data)))
+
+    result.map(apiRes => Ok(apiRes.toJson))
   }
 
 }

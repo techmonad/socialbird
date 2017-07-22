@@ -3,6 +3,7 @@ package services
 import javax.inject.Inject
 
 import org.elasticsearch.action.support.WriteRequest.RefreshPolicy
+import play.api.libs.json.{JsValue, Json}
 import utils.ElasticClient
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -14,9 +15,13 @@ class ElasticService @Inject()(implicit ec: ExecutionContext) {
 
   import com.sksamuel.elastic4s.ElasticDsl._
 
-  def executeQuery(): Future[String] = ElasticClient.getInstance().execute {
+  def executeQuery(): Future[List[JsValue]] = ElasticClient.getInstance().execute {
     search("myindex")
-  }.map { result => result.hits.head.sourceAsString }
+  }.map { result =>
+    result.hits.map { hit =>
+      Json.toJson(hit.sourceAsMap.map { case (k, v) => k -> v.toString })
+    }.toList
+  }
 
   def createQuery(): Future[String] = ElasticClient.getInstance().execute {
     bulk(
