@@ -16,7 +16,7 @@ class ElasticService @Inject()(implicit ec: ExecutionContext) {
   import com.sksamuel.elastic4s.ElasticDsl._
 
   def executeQuery(): Future[List[JsValue]] = ElasticClient.getInstance().execute {
-    search("myindex")
+    search("tweet")
   }.map { result =>
     result.hits.map { hit =>
       Json.toJson(hit.sourceAsMap.map { case (k, v) => k -> v.toString })
