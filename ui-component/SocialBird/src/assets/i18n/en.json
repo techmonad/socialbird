@@ -1,0 +1,11 @@
+{
+    "dashboard": "Dashboard",
+    "charts": "Charts",
+    "tables": "Tables",
+    "forms": "Forms", 
+    "component": "Component",
+    "menu": "Menu",
+    "submenu": "Submenu",
+    "downloadNow": "Download Now",
+    "language": "Language"
+}

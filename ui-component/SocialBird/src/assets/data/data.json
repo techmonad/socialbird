@@ -1,0 +1,28 @@
+{
+ "politicians": [ {"url":"assets/img/modi.jpg", "name":"Narendra Modi", "handle":"narendramodi", "tweet":"Some Text", "followers":"270321", "rank":"1", "rankstatus":"+", "following":"2323", "tweets":"15772"},
+ {"url":"assets/img/yogi.jpg", "name":"Yogi", "handle":"myogiadityanath", "tweet":"Some Text", "followers":"270321", "rank":"2", "rankstatus":"+", "following":"2323", "tweets":"15772"},
+ {"url":"assets/img/parrikar.jpeg", "name":"Manohar Parrikar", "handle":"manoharparrikar ‏", "tweet":"Some Text", "followers":"270321", "rank":"3", "rankstatus":"+", "following":"2323", "tweets":"15772"},
+ {"url":"assets/img/prabhu.jpeg", "name":"Suresh Prabhu", "handle":"sureshpprabhu", "tweet":"Some Text", "followers":"270321", "rank":"4", "rankstatus":"+", "following":"2323", "tweets":"15772"},
+ {"url":"assets/img/sidhu.jpeg", "name":"Navjot Singh Sidhu", "handle":"sherryontopp ", "tweet":"Some Text", "followers":"270321", "rank":"5", "rankstatus":"+", "following":"2323", "tweets":"15772"},
+ {"url":"assets/img/rahul.jpg", "name":"Office of RG", "handle":"OfficeOfRG", "tweet":"Some Text", "followers":"270321", "rank":"6", "rankstatus":"+", "following":"2323", "tweets":"15772"},
+ {"url":"assets/img/bjp.jpg", "name":"BJP", "handle":"BJP4India", "tweet":"Some Text", "followers":"270321", "rank":"7", "rankstatus":"+", "following":"2323", "tweets":"15772"},
+ {"url":"assets/img/modi.jpg", "name":"Narendra Modi", "handle":"narendramodi", "tweet":"Some Text", "followers":"270321", "rank":"1", "rankstatus":"+", "following":"2323", "tweets":"15772"},
+ {"url":"assets/img/yogi.jpg", "name":"Yogi", "handle":"myogiadityanath", "tweet":"Some Text", "followers":"270321", "rank":"2", "rankstatus":"+", "following":"2323", "tweets":"15772"},
+ {"url":"assets/img/parrikar.jpeg", "name":"Manohar Parrikar", "handle":"manoharparrikar ‏", "tweet":"Some Text", "followers":"270321", "rank":"3", "rankstatus":"+", "following":"2323", "tweets":"15772"},
+ {"url":"assets/img/prabhu.jpeg", "name":"Suresh Prabhu", "handle":"sureshpprabhu", "tweet":"Some Text", "followers":"270321", "rank":"4", "rankstatus":"+", "following":"2323", "tweets":"15772"},
+ {"url":"assets/img/sidhu.jpeg", "name":"Navjot Singh Sidhu", "handle":"sherryontopp ", "tweet":"Some Text", "followers":"270321", "rank":"5", "rankstatus":"+", "following":"2323", "tweets":"15772"},
+ {"url":"assets/img/rahul.jpg", "name":"Office of RG", "handle":"OfficeOfRG", "tweet":"Some Text", "followers":"270321", "rank":"6", "rankstatus":"+", "following":"2323", "tweets":"15772"},
+ {"url":"assets/img/bjp.jpg", "name":"BJP", "handle":"BJP4India", "tweet":"Some Text", "followers":"270321", "rank":"7", "rankstatus":"+", "following":"2323", "tweets":"15772"}
+ ],
+ "politicians1": [
+   {"url":"assets/img/modi.jpg", "name":"Narendra Modi", "handle":"narendramodi", "tweet":"Some Text", "followers":"270321", "rank":"1", "rankstatus":"+", "following":"2323", "tweets":"15772"},
+   {"url":"assets/img/yogi.jpg", "name":"Yogi", "handle":"myogiadityanath", "tweet":"Some Text", "followers":"270321", "rank":"2", "rankstatus":"+", "following":"2323", "tweets":"15772"},
+   {"url":"assets/img/parrikar.jpeg", "name":"Manohar Parrikar", "handle":"manoharparrikar ‏", "tweet":"Some Text", "followers":"270321", "rank":"3", "rankstatus":"+", "following":"2323", "tweets":"15772"}
+],
+
+ "single" : [
+   { "name": "Germany", "value": 8940000 },
+   { "name": "USA", "value": 5000000 },
+   { "name": "France", "value": 7200000 }
+ ]
+ }
