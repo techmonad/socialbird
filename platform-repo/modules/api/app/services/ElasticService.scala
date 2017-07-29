@@ -15,19 +15,16 @@ class ElasticService @Inject()(implicit ec: ExecutionContext) {
 
   import com.sksamuel.elastic4s.ElasticDsl._
 
-  def executeQuery(): Future[List[JsValue]] = ElasticClient.getInstance().execute {
-    search("tweet")
+  /**
+    *
+    * @return will top ten politicians.
+    */
+  def topTenPoliticians(): Future[List[JsValue]] = ElasticClient.getInstance().execute {
+    search("tweet/analysis")
   }.map { result =>
     result.hits.map { hit =>
       Json.toJson(hit.sourceAsMap.map { case (k, v) => k -> v.toString })
     }.toList
   }
-
-  def createQuery(): Future[String] = ElasticClient.getInstance().execute {
-    bulk(
-      indexInto("myindex" / "mytype").fields("country" -> "Mongolia", "capital" -> "Ulaanbaatar"),
-      indexInto("myindex" / "mytype").fields("country" -> "Namibia", "capital" -> "Windhoek")
-    ).refresh(RefreshPolicy.WAIT_UNTIL)
-  }.map { result => result.toString }
 
 }

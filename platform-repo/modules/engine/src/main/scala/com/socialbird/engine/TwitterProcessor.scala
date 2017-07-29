@@ -14,7 +14,9 @@ object TwitterProcessor extends App with SparkEngine {
   // Creating a stream from Twitter (see the README to learn how to
   // provide a configuration to make this work - you'll basically
   // need a set of Twitter API keys)
-  val tweets: DStream[Status] = TwitterUtils.createStream(streamingContext, None)
+ // var filters = Array ("OKewskdnXXKQezNxK0l5gpIFT","7A1L0Y0UNZcRZTUyDpa050YmuHt6Fl3nB8KiglZ3wEs9WIBgkX","3012524486-2h4rG3LFGLbT9BmTgrqTXHIRqFHVZr95soELaLA","U4exT9cltzGO2GaLVPnJ3sLxLVBfJ3JEC9fnzhgXMbJtA")
+  var filters =Array("@narendramodi","@PMOIndia")
+  val tweets: DStream[Status] = TwitterUtils.createStream(streamingContext,None,filters)
 
   tweets.foreachRDD { rdd =>
 
