@@ -18,6 +18,7 @@ import scala.concurrent.ExecutionContext
 class HomeController @Inject()(elasticService: ElasticService)(cc: ControllerComponents, implicit val ec: ExecutionContext)
   extends AbstractController(cc) {
 
+
   /**
     * Create an Action to render an HTML page.
     *
@@ -32,4 +33,5 @@ class HomeController @Inject()(elasticService: ElasticService)(cc: ControllerCom
 
     result.map(apiRes => Ok(apiRes.toJson))
   }
+
 }
