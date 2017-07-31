@@ -17,9 +17,10 @@ class ElasticService @Inject()(implicit ec: ExecutionContext) {
 
   /**
     *
-    * @return will top ten politicians.
+    * @return is top ten politicians.
     */
   def topTenPoliticians(): Future[List[JsValue]] = ElasticClient.getInstance().execute {
+    //query need to be added.
     search("tweet/analysis")
   }.map { result =>
     result.hits.map { hit =>
@@ -27,4 +28,6 @@ class ElasticService @Inject()(implicit ec: ExecutionContext) {
     }.toList
   }
 
+
 }
+
