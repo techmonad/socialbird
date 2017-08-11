@@ -15,12 +15,7 @@ object TwitterProcessor extends App with SparkEngine {
   // Creating a stream from Twitter (see the README to learn how to
   // provide a configuration to make this work - you'll basically
   // need a set of Twitter API keys)
-  // var filters = Array ("OKewskdnXXKQezNxK0l5gpIFT","7A1L0Y0UNZcRZTUyDpa050YmuHt6Fl3nB8KiglZ3wEs9WIBgkX","3012524486-2h4rG3LFGLbT9BmTgrqTXHIRqFHVZr95soELaLA","U4exT9cltzGO2GaLVPnJ3sLxLVBfJ3JEC9fnzhgXMbJtA")
-  //var filters =Array("@anuragvnl")
   val tweets: DStream[Status] = TwitterUtils.createStream(streamingContext, None)
-  //val tweets = TwitterUtils.createStream(streamingContext,None)
-  //val q: FilterQuery = new FilterQuery()
-  //val t = tweets.filter( Status().getId == 18839785 )
 
 
     //val tweets = TwitterUtils.createStream(streamingContext,None)
@@ -57,7 +52,6 @@ object TwitterProcessor extends App with SparkEngine {
 
       )
 
-      //filteredDf.show()
       val otherDf = dataFrame.filter(
       $"text".contains("@narendramodi") or $"text".contains("@arunjaitley") or $"text".contains("@rajnathsingh") or $"text".contains("@rsprasad") or
       $"text".contains("@smritiirani") or $"text".contains("@AmitShah") or $"text".contains("@Swamy39") or $"text".contains("@digvijaya_28") or
@@ -70,8 +64,6 @@ object TwitterProcessor extends App with SparkEngine {
       $"text".contains("@ChouhanShivraj") or $"text".contains("@ncbn")
 
       )
-      //otherDf.show()
-
       import org.elasticsearch.spark.sql._
       filteredDf.saveToEs("tweet/users")
       otherDf.saveToEs("other/users")
