@@ -1,0 +1,53 @@
+
+<div class="box box-primary">
+  <div  class="box-header with-border">
+    <i class="box-title">{{heading}}</i>
+    <div class="box-tools pull-right"></div>
+  </div>
+  <div class="box-body" >
+    <slick-slider>
+      <div *ngFor="let each of elements" >
+        <!-- code start -->
+        <div class="twPc-div">
+        <a class="twPc-bg twPc-block"></a>
+        <div>
+          <div class="twPc-button">
+            <a class="btn btn-primary  btn-sm" title="" href="#">
+              <i class="fa fa-twitter" aria-hidden="true"></i><span class="label">Follow</span>
+            </a>
+          </div>
+          <a class="twPc-avatarLink">
+            <img class="twPc-avatarImg" src="{{each.url}}" >
+          </a>
+          <div class="twPc-divUser">
+            <div class="twPc-divName"><a href="#">{{each.name}}</a></div>
+            <span><a href="#">@<span>{{each.handle}}</span></a></span>
+          </div>
+          <div class="row row-no-gutter">
+            <div class="col-xs-4">
+              <div class="twPc-ArrangeSizeFit">
+                <span class="twPc-StatLabel twPc-block">Tweets</span>
+                <span class="twPc-StatValue">{{each.tweets}}</span>
+              </div>
+            </div>
+            <div class="col-xs-4">
+              <div class="twPc-ArrangeSizeFit">
+                <span class="twPc-StatLabel twPc-block">Following</span>
+                <span class="twPc-StatValue">{{each.following}}</span>
+              </div>
+            </div>
+            <div class="col-xs-4">
+              <div class="twPc-ArrangeSizeFit">
+
+                  <span class="twPc-StatLabel twPc-block">Followers</span>
+                  <span class="twPc-StatValue">{{each.followers}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+<!-- code end -->
+    </div>
+      </slick-slider>
+    </div>
+</div>
