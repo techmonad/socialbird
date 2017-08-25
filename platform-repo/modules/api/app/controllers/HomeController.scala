@@ -27,6 +27,7 @@ class HomeController @Inject()(elasticService: ElasticService)(cc: ControllerCom
     * a path of `/`.
     */
   def index() = Action.async { implicit request: Request[AnyContent] =>
+    elasticService.debugQuery()
     val result = for {
        data <- elasticService.topTenPoliticians()
     } yield ApiResponse(OK, None, Map("total" -> Json.toJson(data), "results" -> Json.toJson(data)))

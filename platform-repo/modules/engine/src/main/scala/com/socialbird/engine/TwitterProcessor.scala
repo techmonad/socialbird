@@ -64,6 +64,8 @@ object TwitterProcessor extends App with SparkEngine {
       $"text".contains("@ChouhanShivraj") or $"text".contains("@ncbn")
 
       )
+
+      otherDf.show()
       import org.elasticsearch.spark.sql._
       filteredDf.saveToEs("tweet/users")
       otherDf.saveToEs("other/users")
