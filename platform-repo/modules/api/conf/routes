@@ -4,7 +4,7 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /                           controllers.HomeController.index
+GET     /tweet/:name                           controllers.HomeController.index(name: String)
 
 GET     /emp                        controllers.EmpController.empGet
 POST    /emp                        controllers.EmpController.empPost
