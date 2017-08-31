@@ -5,6 +5,7 @@
 
 # An example controller showing a sample home page
 GET     /tweet/:name                           controllers.HomeController.index(name: String)
+GET     /tweet/:id                             controllers.HomeController.reTweet(id: Long)
 
 GET     /emp                        controllers.EmpController.empGet
 POST    /emp                        controllers.EmpController.empPost
