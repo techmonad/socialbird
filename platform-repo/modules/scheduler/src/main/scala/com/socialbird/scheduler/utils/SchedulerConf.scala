@@ -6,6 +6,8 @@ object SchedulerConf extends PlatformConfig("scheduler") {
 
   import com.socialbird.scheduler.constants.SchedulerConstant._
 
+  val actorSystemName: String = getString(SCHEDULER_ACTOR_SYSTEM_NAME_KEY)
+
   /**
     * Twitter configurations
     */

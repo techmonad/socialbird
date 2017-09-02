@@ -1,7 +1,6 @@
 package com.socialbird.scheduler
 
 import java.util
-import java.util.List
 
 import com.sksamuel.elastic4s.{ElasticsearchClientUri, TcpClient}
 import com.socialbird.common.utils.TwitterUtility
@@ -11,7 +10,6 @@ import twitter4j.TwitterFactory
 import twitter4j.conf._
 
 import scala.collection.JavaConversions._
-
 
 /**
   * Created by Sanjul on 31/08/17.
