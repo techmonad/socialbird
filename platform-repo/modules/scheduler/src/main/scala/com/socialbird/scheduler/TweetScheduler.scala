@@ -1,15 +1,21 @@
 package com.socialbird.scheduler
 
+import com.sksamuel.elastic4s.{ElasticsearchClientUri, TcpClient}
+import twitter4j.Twitter
+import twitter4j.TwitterFactory
+import twitter4j.auth.AccessToken
+import twitter4j.conf._
+import twitter4j.Query
+import twitter4j.Status
 import java.util.List
 
-import com.sksamuel.elastic4s.{ElasticsearchClientUri, TcpClient}
-import com.socialbird.common.utils.TwitterUtility
-import com.socialbird.scheduler.utils.SchedulerConf
+import twitter4j.User
+import com.socialbird.engine.utils.TwitterUtility
+import com.google.gson.Gson
 import org.elasticsearch.action.support.WriteRequest.RefreshPolicy
-import twitter4j.TwitterFactory
-import twitter4j.conf._
-
 import scala.collection.JavaConversions._
+
+
 
 /**
   * Created by Sanjul on 31/08/17.
@@ -19,10 +25,10 @@ object TweetScheduler extends App {
   val cb = new ConfigurationBuilder()
 
   cb.setDebugEnabled(true)
-    .setOAuthConsumerKey(SchedulerConf.consumerKey)
-    .setOAuthConsumerSecret(SchedulerConf.consumerSecret)
-    .setOAuthAccessToken(SchedulerConf.accessToken)
-    .setOAuthAccessTokenSecret(SchedulerConf.accessTokenSecret)
+    .setOAuthConsumerKey("RnNidr4nR9XqEeDsVhjS99640")
+    .setOAuthConsumerSecret("tbLTEAAsOrjEUzbjchG6yI17eS7HsKTyNYrmfcs1qyyZomTMSK")
+    .setOAuthAccessToken("3012524486-9JfSDsxSZQSdviWQAGro3Z8el0o2O3OPmBikJ0t")
+    .setOAuthAccessTokenSecret("bVuQGsxzGqWCZoeOAqsljVJerI1814Fs3UJq5vdZ8yMr8")
 
   val factory = new TwitterFactory()
   val twitter = factory.getInstance()
@@ -57,46 +63,43 @@ object TweetScheduler extends App {
     "NitishKumar" -> "143409075",
     "MamataOfficial" -> "2526794479",
     "Gen_VKSingh" -> "1856414335",
-    "drharshvardhan" -> "77732185",
+    "drharshvardhan" ->  "77732185",
     "drramansingh" -> "373280952",
     "ChouhanShivraj" -> "1251083774",
     "ncbn" -> "85221650"
   )
-
   var instance: TcpClient = TcpClient.transport(ElasticsearchClientUri("localhost", 9300))
-
   import com.sksamuel.elastic4s.ElasticDsl._
 
-  instance.execute {
-    deleteIndex("socialbird/politicianTweets")
-  }
-
-  println("socialbird/politicianTweets index deleted/flushed")
-  for ((k, v) <- politiciansMap) {
+  for ((k,v) <- politiciansMap) {
     val statusList: List[twitter4j.Status] = twitter.getUserTimeline(v.toLong)
-    for (inVal <- statusList) {
-      val tweet: com.socialbird.common.domains.Tweet = TwitterUtility.statusToTweet(inVal)
+    val inVal: twitter4j.Status = null
+    for(inVal <- statusList) {
+      val tweet: com.socialbird.engine.domains.Tweet = TwitterUtility.statusToTweet(inVal)
       val gson: com.google.gson.Gson = new com.google.gson.Gson()
       val tweetJson: String = gson.toJson(tweet)
       instance.execute {
-        indexInto("socialbird" / "politicianTweets") doc tweetJson refresh RefreshPolicy.IMMEDIATE
+        indexInto("socialbird" / "politicianTweets") doc tweetJson refresh(RefreshPolicy.IMMEDIATE)
       }
     }
   }
-
   println("===========All tweets saved successfully===========")
 
-  for ((k, v) <- politiciansMap) {
+  instance.execute {
+    deleteIn("socialbird/politicians").by(matchAllQuery())
+  }
+  println("socialbird/politicians index deleted/flushed")
+
+  for ((k,v) <- politiciansMap) {
     val user: twitter4j.User = twitter.showUser(v.toLong)
-    val usr: com.socialbird.common.domains.User = TwitterUtility.tweetUserToUser(twitter.showUser(v.toLong))
+    val usr: com.socialbird.engine.domains.User  = TwitterUtility.tweetUserToUser(twitter.showUser(v.toLong))
     val gson: com.google.gson.Gson = new com.google.gson.Gson()
     val userJson: String = gson.toJson(usr)
     instance.execute {
-      indexInto("socialbird" / "politicians") doc userJson refresh (RefreshPolicy.IMMEDIATE)
+      indexInto("socialbird" / "politicians") doc userJson refresh(RefreshPolicy.IMMEDIATE)
     }.await
-    println("Saving details of |" + user.getScreenName() + "|")
+    println("Saving details of |"+ user.getScreenName()+"|")
   }
-
   println("==========Politicians details are saved successfully=============")
 
 }
