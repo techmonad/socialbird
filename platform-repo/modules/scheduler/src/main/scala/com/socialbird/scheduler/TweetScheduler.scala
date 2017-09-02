@@ -24,7 +24,7 @@ object TweetScheduler extends App {
     .setOAuthAccessToken(SchedulerConf.accessToken)
     .setOAuthAccessTokenSecret(SchedulerConf.accessTokenSecret)
 
-  val factory = new TwitterFactory()
+  val factory = new TwitterFactory(cb.build())
   val twitter = factory.getInstance()
 
   val politiciansMap = Map("narendramodi" -> "18839785",
