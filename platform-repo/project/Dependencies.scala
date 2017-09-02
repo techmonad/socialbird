@@ -92,8 +92,7 @@ object Dependencies {
     import SparkLib._
     import NLPLib._
     import Elastic4sLib._
-    import PlayLib._
-    compile(sparkCore, sparkSQL, sparkStreaming, sparkTwitter, corenlp, models, elastic, tcp, json, gson)
+    compile(sparkCore, sparkSQL, sparkStreaming, sparkTwitter, corenlp, models, elastic, tcp, gson)
   }
 
 }
