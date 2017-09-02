@@ -72,7 +72,6 @@ object TweetScheduler extends App {
     var instance: TcpClient = TcpClient.transport(ElasticsearchClientUri("localhost", 9300))
     import com.sksamuel.elastic4s.ElasticDsl._
 
-
     for ((k,v) <- politiciansMap) {
         val statusList: List[twitter4j.Status] = twitter.getUserTimeline(v.toLong)
         val inVal: twitter4j.Status = null
@@ -88,7 +87,7 @@ object TweetScheduler extends App {
     println("===========All tweets saved successfully===========")
 
     instance.execute {
-        deleteIndex("socialbird/politicians")
+        deleteIn("socialbird/politicians").by(matchAllQuery())
     }
     println("socialbird/politicians index deleted/flushed")
 
