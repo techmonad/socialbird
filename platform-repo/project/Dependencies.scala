@@ -30,6 +30,7 @@ object Dependencies {
   object ScalaLib {
     lazy val config = "com.typesafe" % "config" % "1.3.1"
     lazy val logger = "com.typesafe.scala-logging" %% "scala-logging" % "3.7.1"
+    lazy val scalatest =  "org.scalatest" %% "scalatest" % "3.0.4"
   }
 
   object AkkaLib {
@@ -91,7 +92,7 @@ object Dependencies {
 
   val commonDependencies: Seq[ModuleID] = {
     import ScalaLib._
-    compile(config, logger) ++ compile(Twitter4jLib.stream)
+    compile(config, logger) ++ compile(Twitter4jLib.stream) ++ test(scalatest)
   }
 
   val apiDependencies: Seq[ModuleID] = {
