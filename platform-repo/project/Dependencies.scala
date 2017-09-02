@@ -69,6 +69,8 @@ object Dependencies {
     // testing
     lazy val testkit = "com.sksamuel.elastic4s" %% "elastic4s-testkit" % V.elastic4s
     lazy val embedded = "com.sksamuel.elastic4s" %% "elastic4s-embedded" % V.elastic4s
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    lazy val gson = "com.google.code.gson" % "gson" % "2.8.0"
   }
 
   val playDependencies: Seq[ModuleID] = {
@@ -89,7 +91,9 @@ object Dependencies {
   val engineDependencies: Seq[ModuleID] = {
     import SparkLib._
     import NLPLib._
-    compile(sparkCore, sparkSQL, sparkStreaming, sparkTwitter, corenlp, models, elastic)
+    import Elastic4sLib._
+    import PlayLib._
+    compile(sparkCore, sparkSQL, sparkStreaming, sparkTwitter, corenlp, models, elastic, tcp, json, gson)
   }
 
 }
