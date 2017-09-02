@@ -30,7 +30,7 @@ object TweetScheduler extends App {
     .setOAuthAccessToken("3012524486-9JfSDsxSZQSdviWQAGro3Z8el0o2O3OPmBikJ0t")
     .setOAuthAccessTokenSecret("bVuQGsxzGqWCZoeOAqsljVJerI1814Fs3UJq5vdZ8yMr8")
 
-  val factory = new TwitterFactory()
+  val factory = new TwitterFactory(cb.build())
   val twitter = factory.getInstance()
 
   val politiciansMap = Map("narendramodi" -> "18839785",
