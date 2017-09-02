@@ -26,13 +26,13 @@ class HomeController @Inject()(elasticService: ElasticService)(cc: ControllerCom
     * will be called when the application receives a `GET` request with
     * a path of `/`.
     */
-  def index(name: String) = Action.async { implicit request: Request[AnyContent] =>
-    elasticService.debugQuery(name)
+  def index(size: String) = Action.async { implicit request: Request[AnyContent] =>
     val result = for {
-       data <- elasticService.tweetsStats(name)
+       data <- elasticService.topTenPoliticians(size.toInt)
     } yield ApiResponse(OK, None, Map("total" -> Json.toJson(data), "results" -> Json.toJson(data)))
 
     result.map(apiRes => Ok(apiRes.toJson))
   }
+
 
 }
