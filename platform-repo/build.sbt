@@ -5,8 +5,8 @@ import Dependencies._
 // Root Project
 // -------------------------------------------------------------------------------------------------------------------
 lazy val root = project.in(file("."))
-  .aggregate(common, api, engine)
-  .dependsOn(common, api, engine)
+  .aggregate(common, api, engine, scheduler)
+  .dependsOn(common, api, engine, scheduler)
   .settings(basicSettings: _*)
   .settings(dependencyOverrides ++= Set(SparkLib.jackson))
 
@@ -36,4 +36,10 @@ lazy val engine = project.in(file("modules/engine"))
   .settings(libraryDependencies ++= engineDependencies)
   .settings(dependencyOverrides ++= Set(SparkLib.jackson))
 
-
+// -------------------------------------------------------------------------------------------------------------------
+// Scheduler Module
+// -------------------------------------------------------------------------------------------------------------------
+lazy val scheduler = project.in(file("modules/scheduler"))
+  .dependsOn(common)
+  .settings(basicSettings: _*)
+  .settings(libraryDependencies ++= schedulerDependencies)

@@ -1,4 +1,4 @@
-package com.socialbird.engine.domains
+package com.socialbird.common.domains
 
 import java.sql.Timestamp
 import java.util.Date

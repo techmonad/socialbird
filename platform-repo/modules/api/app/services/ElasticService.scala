@@ -2,16 +2,13 @@ package services
 
 import javax.inject.Inject
 
-import org.elasticsearch.action.support.WriteRequest.RefreshPolicy
+import com.sksamuel.elastic4s.searches.aggs.SumAggregationDefinition
 import play.api.libs.json.{JsValue, Json}
 import utils.ElasticClient
-import com.sksamuel.elastic4s.searches.aggs.DateHistogramAggregation
-import com.sksamuel.elastic4s.searches.aggs.SumAggregationDefinition
-
 
 import scala.concurrent.{ExecutionContext, Future}
 
-/** s
+/**
   * Created by anand on 9/7/17.
   */
 class ElasticService @Inject()(implicit ec: ExecutionContext) {
@@ -53,15 +50,15 @@ class ElasticService @Inject()(implicit ec: ExecutionContext) {
     println(ElasticClient.getInstance().show(q3))
 
     //Average number a politicians is following  per day basis
-     val q4 = search("other" / "users").termQuery("user.name", name).aggs {
-       dateHistogramAggregation("hist").field("createdAt").interval(24 * 60 * 60)
-         .subAggregations(SumAggregationDefinition("avg_followings").field("susers.followings"))
-     }
+    val q4 = search("other" / "users").termQuery("user.name", name).aggs {
+      dateHistogramAggregation("hist").field("createdAt").interval(24 * 60 * 60)
+        .subAggregations(SumAggregationDefinition("avg_followings").field("susers.followings"))
+    }
     println("==============Average number a politicians is following  per day basis===============")
     println(ElasticClient.getInstance().show(q4))
 
     //top tweet based on max number of favouried tweet of a politician
-     val q5 = search("other" / "users").termQuery("user.name", name).stats("favoriteCount")
+    val q5 = search("other" / "users").termQuery("user.name", name).stats("favoriteCount")
     println("==============top tweet based on max number of favouried tweet of a politician===============")
     println(ElasticClient.getInstance().show(q5))
 
@@ -72,6 +69,12 @@ class ElasticService @Inject()(implicit ec: ExecutionContext) {
     println(ElasticClient.getInstance().show(q6))
   }
 
+  /**
+    * Test Function
+    *
+    * @param name
+    * @return
+    */
   def testFunc(name: String): Future[List[JsValue]] = ElasticClient.getInstance().execute {
     search("other" / "users").matchQuery("text", name)
   }.map {
@@ -82,9 +85,12 @@ class ElasticService @Inject()(implicit ec: ExecutionContext) {
   }
 
 
-  /*
-  * tweets  per day by a politician
- */
+  /**
+    * tweets  per day by a politician
+    *
+    * @param name
+    * @return
+    */
   def tweetsStats(name: String): Future[List[JsValue]] = ElasticClient.getInstance().execute {
     search("other" / "users").termQuery("user.name", name).aggs {
       dateHistogramAggregation("hist").interval(24 * 60 * 60).field("createdAt")
@@ -96,10 +102,12 @@ class ElasticService @Inject()(implicit ec: ExecutionContext) {
     }.toList
   }
 
-  /*
-* Average number of followers per day basis of a particular politicians
-*
-* */
+  /**
+    * Average number of followers per day basis of a particular politicians
+    *
+    * @param name
+    * @return
+    */
   def followersStats(name: String): Future[List[JsValue]] = ElasticClient.getInstance().execute {
     search("other" / "users").termQuery("user.name", name).aggs {
       dateHistogramAggregation("hist").field("createdAt").interval(24 * 60 * 60)
@@ -111,11 +119,12 @@ class ElasticService @Inject()(implicit ec: ExecutionContext) {
     }.toList
   }
 
-
-  /*
-* Average number a politicians is following  per day basis
-*
-* */
+  /**
+    * Average number a politicians is following  per day basis
+    *
+    * @param name
+    * @return
+    */
   def followingStats(name: String): Future[List[JsValue]] = ElasticClient.getInstance().execute {
     search("other" / "users").termQuery("user.name", name).aggs {
       dateHistogramAggregation("hist").field("createdAt").interval(24 * 60 * 60)
@@ -127,11 +136,12 @@ class ElasticService @Inject()(implicit ec: ExecutionContext) {
     }.toList
   }
 
-
-  /*
-   * top tweet based on max number of favouried tweet of a politician
-   *
-   */
+  /**
+    * top tweet based on max number of favouried tweet of a politician
+    *
+    * @param name
+    * @return
+    */
   def tweetsStatsByName(name: String): Future[List[JsValue]] = ElasticClient.getInstance().execute {
     search("other" / "users").termQuery("user.name", name).stats("favoriteCount")
   }.map { result =>
@@ -140,10 +150,12 @@ class ElasticService @Inject()(implicit ec: ExecutionContext) {
     }.toList
   }
 
-  /*
-* top tweets(max number of retweeted tweets) of a politicians
-*
-* */
+  /**
+    * top tweets(max number of retweeted tweets) of a politicians
+    *
+    * @param name
+    * @return
+    */
   def topRetweeted(name: String): Future[List[JsValue]] = ElasticClient.getInstance().execute {
     search("other" / "users").termQuery("user.name", name).stats("retweetCount")
   }.map { result =>

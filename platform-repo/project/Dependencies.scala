@@ -1,6 +1,5 @@
 import sbt._
 
-
 object Dependencies {
 
   val resolutionRepos = Seq(
@@ -20,15 +19,22 @@ object Dependencies {
   // Versions
   object V {
     val Scala = "2.11.11"
+    val Akka = "2.5.4"
     val Play = "2.6.1"
     val Spark = "2.1.0"
     val NLP = "3.7.0"
-    val elastic4s = "5.4.7"
+    val Elastic4s = "5.4.7"
+    val Twitter4j = "4.0.6"
   }
 
   object ScalaLib {
     lazy val config = "com.typesafe" % "config" % "1.3.1"
     lazy val logger = "com.typesafe.scala-logging" %% "scala-logging" % "3.7.1"
+  }
+
+  object AkkaLib {
+    lazy val actor = "com.typesafe.akka" %% "akka-actor" % V.Akka
+    lazy val testkit = "com.typesafe.akka" %% "akka-testkit" % V.Akka
   }
 
   object PlayLib {
@@ -59,19 +65,24 @@ object Dependencies {
   }
 
   object Elastic4sLib {
-    lazy val core = "com.sksamuel.elastic4s" %% "elastic4s-core" % V.elastic4s
+    lazy val core = "com.sksamuel.elastic4s" %% "elastic4s-core" % V.Elastic4s
     // for the tcp client
-    lazy val tcp = "com.sksamuel.elastic4s" %% "elastic4s-tcp" % V.elastic4s
+    lazy val tcp = "com.sksamuel.elastic4s" %% "elastic4s-tcp" % V.Elastic4s
     // for the http client
-    lazy val http = "com.sksamuel.elastic4s" %% "elastic4s-http" % V.elastic4s
+    lazy val http = "com.sksamuel.elastic4s" %% "elastic4s-http" % V.Elastic4s
     // if you want to use reactive streams
-    lazy val streams = "com.sksamuel.elastic4s" %% "elastic4s-streams" % V.elastic4s
+    lazy val streams = "com.sksamuel.elastic4s" %% "elastic4s-streams" % V.Elastic4s
     // testing
-    lazy val testkit = "com.sksamuel.elastic4s" %% "elastic4s-testkit" % V.elastic4s
-    lazy val embedded = "com.sksamuel.elastic4s" %% "elastic4s-embedded" % V.elastic4s
+    lazy val testkit = "com.sksamuel.elastic4s" %% "elastic4s-testkit" % V.Elastic4s
+    lazy val embedded = "com.sksamuel.elastic4s" %% "elastic4s-embedded" % V.Elastic4s
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     lazy val gson = "com.google.code.gson" % "gson" % "2.8.0"
   }
+
+  object Twitter4jLib {
+    lazy val stream = "org.twitter4j" % "twitter4j-stream" % V.Twitter4j
+  }
+
 
   val playDependencies: Seq[ModuleID] = {
     import PlayLib._
@@ -80,7 +91,7 @@ object Dependencies {
 
   val commonDependencies: Seq[ModuleID] = {
     import ScalaLib._
-    compile(config, logger)
+    compile(config, logger) ++ compile(Twitter4jLib.stream)
   }
 
   val apiDependencies: Seq[ModuleID] = {
@@ -95,6 +106,11 @@ object Dependencies {
     compile(sparkCore, sparkSQL, sparkStreaming, sparkTwitter, corenlp, models, elastic, tcp, gson)
   }
 
+  val schedulerDependencies: Seq[ModuleID] = {
+    import AkkaLib._
+    import Elastic4sLib._
+    commonDependencies ++ compile(actor, tcp, gson) ++
+      test(AkkaLib.testkit, Elastic4sLib.testkit)
+  }
+
 }
-
-
