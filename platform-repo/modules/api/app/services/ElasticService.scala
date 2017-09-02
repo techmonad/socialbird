@@ -189,5 +189,7 @@ class ElasticService @Inject()(implicit ec: ExecutionContext) {
     }.toList
   }
 
+
+
 }
 
