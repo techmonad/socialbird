@@ -4,7 +4,7 @@ import java.util
 
 import com.sksamuel.elastic4s.{ElasticsearchClientUri, TcpClient}
 import com.socialbird.common.utils.TwitterUtility
-import com.socialbird.scheduler.utils.SchedulerConf
+import com.socialbird.scheduler.utils.{ElasticClient, SchedulerConf}
 import org.elasticsearch.action.support.WriteRequest.RefreshPolicy
 import twitter4j.TwitterFactory
 import twitter4j.conf._
@@ -27,7 +27,7 @@ object TweetScheduler extends App {
   val factory = new TwitterFactory(cb.build())
   val twitter = factory.getInstance()
 
-  var instance: TcpClient = TcpClient.transport(ElasticsearchClientUri("localhost", 9300))
+  var instance: TcpClient = ElasticClient.getInstance()
 
   import com.sksamuel.elastic4s.ElasticDsl._
 
