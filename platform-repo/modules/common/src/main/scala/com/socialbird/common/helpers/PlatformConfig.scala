@@ -4,6 +4,8 @@ import java.util
 
 import com.typesafe.config.{Config, ConfigFactory}
 
+import scala.collection.JavaConversions._
+
 /**
   * A class to handle config functionality
   *
@@ -37,6 +39,14 @@ class PlatformConfig(conf: String) {
     * @param key The Conf Key
     * @return
     */
-  def getStringList(key: String): util.List[String] = config.getStringList(key)
+  def getStringList(key: String): List[String] = config.getStringList(key).toList
+
+  /**
+    * getLongList : It returns list of values to corresponding to key.
+    *
+    * @param key The Conf Key
+    * @return
+    */
+  def getLongList(key: String): List[Long] = config.getLongList(key).toList.map(_.toLong)
 
 }

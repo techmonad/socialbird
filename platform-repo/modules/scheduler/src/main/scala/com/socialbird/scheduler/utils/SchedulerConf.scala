@@ -14,4 +14,7 @@ object SchedulerConf extends PlatformConfig("scheduler") {
   val accessToken: String = getString(OAUTH_ACCESS_TOKEN)
   val accessTokenSecret: String = getString(OAUTH_ACCESS_TOKEN_SECRET)
 
+  val politicianIds: List[Long] = getLongList(POLITICIANS_TWITTER_IDS)
+  val politicianHandles: List[String] = getStringList(POLITICIANS_TWITTER_HANDLES)
+
 }
