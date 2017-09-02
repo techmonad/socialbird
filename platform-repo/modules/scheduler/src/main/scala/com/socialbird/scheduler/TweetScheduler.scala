@@ -4,6 +4,7 @@ import java.util.List
 
 import com.sksamuel.elastic4s.{ElasticsearchClientUri, TcpClient}
 import com.socialbird.common.utils.TwitterUtility
+import com.socialbird.scheduler.utils.SchedulerConf
 import org.elasticsearch.action.support.WriteRequest.RefreshPolicy
 import twitter4j.TwitterFactory
 import twitter4j.conf._
@@ -18,10 +19,10 @@ object TweetScheduler extends App {
   val cb = new ConfigurationBuilder()
 
   cb.setDebugEnabled(true)
-    .setOAuthConsumerKey("RnNidr4nR9XqEeDsVhjS99640")
-    .setOAuthConsumerSecret("tbLTEAAsOrjEUzbjchG6yI17eS7HsKTyNYrmfcs1qyyZomTMSK")
-    .setOAuthAccessToken("3012524486-9JfSDsxSZQSdviWQAGro3Z8el0o2O3OPmBikJ0t")
-    .setOAuthAccessTokenSecret("bVuQGsxzGqWCZoeOAqsljVJerI1814Fs3UJq5vdZ8yMr8")
+    .setOAuthConsumerKey(SchedulerConf.consumerKey)
+    .setOAuthConsumerSecret(SchedulerConf.consumerSecret)
+    .setOAuthAccessToken(SchedulerConf.accessToken)
+    .setOAuthAccessTokenSecret(SchedulerConf.accessTokenSecret)
 
   val factory = new TwitterFactory()
   val twitter = factory.getInstance()
@@ -63,6 +64,7 @@ object TweetScheduler extends App {
   )
 
   var instance: TcpClient = TcpClient.transport(ElasticsearchClientUri("localhost", 9300))
+
   import com.sksamuel.elastic4s.ElasticDsl._
 
   instance.execute {
