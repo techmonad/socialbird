@@ -2,12 +2,11 @@ package com.socialbird.scheduler
 
 import java.util
 
-import com.sksamuel.elastic4s.{ElasticsearchClientUri, TcpClient}
-import com.socialbird.common.utils.TwitterUtility
-import com.socialbird.scheduler.utils.{ElasticClient, SchedulerConf}
+import com.sksamuel.elastic4s.TcpClient
+import com.socialbird.common.configs.CommonConfig
+import com.socialbird.common.utils.{ElasticClient, TwitterInstance, TwitterUtility}
 import org.elasticsearch.action.support.WriteRequest.RefreshPolicy
-import twitter4j.TwitterFactory
-import twitter4j.conf._
+import twitter4j.Twitter
 
 import scala.collection.JavaConversions._
 
@@ -16,29 +15,20 @@ import scala.collection.JavaConversions._
   */
 object TweetScheduler extends App {
 
-  val cb = new ConfigurationBuilder()
-
-  cb.setDebugEnabled(true)
-    .setOAuthConsumerKey(SchedulerConf.consumerKey)
-    .setOAuthConsumerSecret(SchedulerConf.consumerSecret)
-    .setOAuthAccessToken(SchedulerConf.accessToken)
-    .setOAuthAccessTokenSecret(SchedulerConf.accessTokenSecret)
-
-  val factory = new TwitterFactory(cb.build())
-  val twitter = factory.getInstance()
+  val twitter: Twitter = TwitterInstance.getInstance()
 
   var instance: TcpClient = ElasticClient.getInstance()
 
   import com.sksamuel.elastic4s.ElasticDsl._
 
-  for (twitterId <- SchedulerConf.politicianIds) {
+  for (twitterId <- CommonConfig.politicianIds) {
     val statusList: util.List[twitter4j.Status] = twitter.getUserTimeline(twitterId)
     for (inVal <- statusList) {
       val tweet: com.socialbird.common.domains.Tweet = TwitterUtility.statusToTweet(inVal)
       val gson: com.google.gson.Gson = new com.google.gson.Gson()
       val tweetJson: String = gson.toJson(tweet)
       instance.execute {
-        indexInto("socialbird" / "politicianTweets") doc tweetJson refresh (RefreshPolicy.IMMEDIATE)
+        indexInto("socialbird" / "politicianTweets") doc tweetJson refresh RefreshPolicy.IMMEDIATE
       }
     }
   }
@@ -49,15 +39,15 @@ object TweetScheduler extends App {
   }
   println("socialbird/politicians index deleted/flushed")
 
-  for (twitterId <- SchedulerConf.politicianIds) {
+  for (twitterId <- CommonConfig.politicianIds) {
     val user: twitter4j.User = twitter.showUser(twitterId)
     val usr: com.socialbird.common.domains.User = TwitterUtility.tweetUserToUser(user)
     val gson: com.google.gson.Gson = new com.google.gson.Gson()
     val userJson: String = gson.toJson(usr)
     instance.execute {
-      indexInto("socialbird" / "politicians") doc userJson refresh (RefreshPolicy.IMMEDIATE)
+      indexInto("socialbird" / "politicians") doc userJson refresh RefreshPolicy.IMMEDIATE
     }.await
-    println("Saving details of |" + user.getScreenName() + "|")
+    println("Saving details of |" + user.getScreenName + "|")
   }
   println("==========Politicians details are saved successfully=============")
 

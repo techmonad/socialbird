@@ -28,14 +28,14 @@ object Dependencies {
   }
 
   object ScalaLib {
-    lazy val config = "com.typesafe" % "config" % "1.3.1"
-    lazy val logger = "com.typesafe.scala-logging" %% "scala-logging" % "3.7.1"
-    lazy val scalatest =  "org.scalatest" %% "scalatest" % "3.0.4"
+    lazy val config: ModuleID = "com.typesafe" % "config" % "1.3.1"
+    lazy val logger: ModuleID = "com.typesafe.scala-logging" %% "scala-logging" % "3.7.1"
+    lazy val scalatest: ModuleID = "org.scalatest" %% "scalatest" % "3.0.4"
   }
 
   object AkkaLib {
-    lazy val actor = "com.typesafe.akka" %% "akka-actor" % V.Akka
-    lazy val testkit = "com.typesafe.akka" %% "akka-testkit" % V.Akka
+    lazy val actor: ModuleID = "com.typesafe.akka" %% "akka-actor" % V.Akka
+    lazy val testkit: ModuleID = "com.typesafe.akka" %% "akka-testkit" % V.Akka
   }
 
   object PlayLib {
@@ -66,22 +66,22 @@ object Dependencies {
   }
 
   object Elastic4sLib {
-    lazy val core = "com.sksamuel.elastic4s" %% "elastic4s-core" % V.Elastic4s
+    lazy val core: ModuleID = "com.sksamuel.elastic4s" %% "elastic4s-core" % V.Elastic4s
     // for the tcp client
-    lazy val tcp = "com.sksamuel.elastic4s" %% "elastic4s-tcp" % V.Elastic4s
+    lazy val tcp: ModuleID = "com.sksamuel.elastic4s" %% "elastic4s-tcp" % V.Elastic4s
     // for the http client
-    lazy val http = "com.sksamuel.elastic4s" %% "elastic4s-http" % V.Elastic4s
+    lazy val http: ModuleID = "com.sksamuel.elastic4s" %% "elastic4s-http" % V.Elastic4s
     // if you want to use reactive streams
-    lazy val streams = "com.sksamuel.elastic4s" %% "elastic4s-streams" % V.Elastic4s
+    lazy val streams: ModuleID = "com.sksamuel.elastic4s" %% "elastic4s-streams" % V.Elastic4s
     // testing
-    lazy val testkit = "com.sksamuel.elastic4s" %% "elastic4s-testkit" % V.Elastic4s
-    lazy val embedded = "com.sksamuel.elastic4s" %% "elastic4s-embedded" % V.Elastic4s
+    lazy val testkit: ModuleID = "com.sksamuel.elastic4s" %% "elastic4s-testkit" % V.Elastic4s
+    lazy val embedded: ModuleID = "com.sksamuel.elastic4s" %% "elastic4s-embedded" % V.Elastic4s
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
-    lazy val gson = "com.google.code.gson" % "gson" % "2.8.0"
+    lazy val gson: ModuleID = "com.google.code.gson" % "gson" % "2.8.0"
   }
 
   object Twitter4jLib {
-    lazy val stream = "org.twitter4j" % "twitter4j-stream" % V.Twitter4j
+    lazy val stream: ModuleID = "org.twitter4j" % "twitter4j-stream" % V.Twitter4j
   }
 
 
@@ -92,7 +92,7 @@ object Dependencies {
 
   val commonDependencies: Seq[ModuleID] = {
     import ScalaLib._
-    compile(config, logger) ++ compile(Twitter4jLib.stream) ++ test(scalatest)
+    compile(config, logger) ++ compile(Elastic4sLib.tcp, Twitter4jLib.stream) ++ test(scalatest)
   }
 
   val apiDependencies: Seq[ModuleID] = {
@@ -103,15 +103,12 @@ object Dependencies {
   val engineDependencies: Seq[ModuleID] = {
     import SparkLib._
     import NLPLib._
-    import Elastic4sLib._
-    compile(sparkCore, sparkSQL, sparkStreaming, sparkTwitter, corenlp, models, elastic, tcp, gson)
+    compile(sparkCore, sparkSQL, sparkStreaming, sparkTwitter, corenlp, models, elastic)
   }
 
   val schedulerDependencies: Seq[ModuleID] = {
     import AkkaLib._
-    import Elastic4sLib._
-    commonDependencies ++ compile(actor, tcp, gson) ++
-      test(AkkaLib.testkit, Elastic4sLib.testkit)
+    commonDependencies ++ compile(actor) ++ test(AkkaLib.testkit, Elastic4sLib.testkit)
   }
 
 }

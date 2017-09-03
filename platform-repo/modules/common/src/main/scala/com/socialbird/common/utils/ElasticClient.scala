@@ -1,4 +1,4 @@
-package utils
+package com.socialbird.common.utils
 
 import com.sksamuel.elastic4s.{ElasticsearchClientUri, TcpClient}
 

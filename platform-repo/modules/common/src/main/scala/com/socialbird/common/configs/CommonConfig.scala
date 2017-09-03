@@ -1,12 +1,9 @@
-package com.socialbird.scheduler.utils
+package com.socialbird.common.configs
 
+import com.socialbird.common.constants.CommonConstant._
 import com.socialbird.common.helpers.PlatformConfig
 
-object SchedulerConf extends PlatformConfig("scheduler") {
-
-  import com.socialbird.scheduler.constants.SchedulerConstant._
-
-  val actorSystemName: String = getString(SCHEDULER_ACTOR_SYSTEM_NAME_KEY)
+object CommonConfig extends PlatformConfig(COMMON_CONF_NAME) {
 
   /**
     * Twitter configurations

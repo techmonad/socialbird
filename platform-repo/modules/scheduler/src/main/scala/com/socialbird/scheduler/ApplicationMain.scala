@@ -1,17 +1,18 @@
 package com.socialbird.scheduler
 
 import akka.actor.ActorSystem
+import com.socialbird.common.configs.CommonConfig
 import com.socialbird.scheduler.actors.{ProfileActor, TimelineActor}
-import com.socialbird.scheduler.utils.SchedulerConf
+import com.socialbird.scheduler.utils.SchedulerConfig
 
 object ApplicationMain extends App {
 
-  val system = ActorSystem(SchedulerConf.actorSystemName)
+  val system = ActorSystem(SchedulerConfig.actorSystemName)
 
   val profileActor = system.actorOf(ProfileActor.props, "ProfileActor")
   val timelineActor = system.actorOf(TimelineActor.props, "TimelineActor")
 
-  SchedulerConf.politicianIds foreach { id =>
+  CommonConfig.politicianIds foreach { id =>
     profileActor ! ProfileActor.Message(id)
     timelineActor ! TimelineActor.Message(id)
   }

@@ -2,15 +2,9 @@ package services
 
 import javax.inject.Inject
 
-import org.elasticsearch.action.support.WriteRequest.RefreshPolicy
+import com.sksamuel.elastic4s.searches.aggs.{SumAggregationDefinition, TermsAggregationDefinition}
+import com.socialbird.common.utils.ElasticClient
 import play.api.libs.json.{JsValue, Json}
-import utils.ElasticClient
-import com.sksamuel.elastic4s.searches.aggs.DateHistogramAggregation
-import com.sksamuel.elastic4s.searches.aggs.SumAggregationDefinition
-import com.sksamuel.elastic4s.searches.sort.SortDefinition
-import com.sksamuel.elastic4s.searches.QueryApi
-import com.sksamuel.elastic4s.searches.aggs.TermsAggregationDefinition
-
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -188,8 +182,6 @@ class ElasticService @Inject()(implicit ec: ExecutionContext) {
       Json.toJson(hit.sourceAsMap.map { case (k, v) => k -> v.toString })
     }.toList
   }
-
-
 
 }
 
