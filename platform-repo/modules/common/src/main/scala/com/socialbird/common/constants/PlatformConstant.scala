@@ -3,6 +3,13 @@ package com.socialbird.common.constants
 trait PlatformConstant {
 
   /**
+    * Elastic search constants
+    */
+  val ELASTIC_INDEX_NAME = "socialbird"
+  val ELASTIC_POLITICIANS_TYPE_NAME = "politicians"
+  val ELASTIC_POLITICIANS_TWEETS_TYPE_NAME = "politicianTweets"
+
+  /**
     * Twitter Constants
     */
   val OAUTH_CONSUMER_KEY: String = "oauth.consumerKey"

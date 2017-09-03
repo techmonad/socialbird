@@ -108,7 +108,7 @@ object Dependencies {
 
   val schedulerDependencies: Seq[ModuleID] = {
     import AkkaLib._
-    commonDependencies ++ compile(actor) ++ test(AkkaLib.testkit, Elastic4sLib.testkit)
+    commonDependencies ++ compile(actor, Elastic4sLib.gson) ++ test(AkkaLib.testkit, Elastic4sLib.testkit)
   }
 
 }
